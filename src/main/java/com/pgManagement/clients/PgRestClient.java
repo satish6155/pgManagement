@@ -19,14 +19,14 @@ import com.pgManagement.entity.master.ZipCode;
 
 public class PgRestClient {
 
-	public static final String REST_BASE_URI = "http://localhost:8080/SpringRestHibernate";
+	public static final String REST_BASE_URI = "http://localhost:8090/SpringRestHibernate";
 
 	static RestTemplate restTemplate = new RestTemplate();
 
 	public static void main(String args[]) {
 		// addPg();
-		//getAllPg();
-		getPgById(50000L);
+		getAllPg();
+		//getPgById(50000L);
 	}
 
 	public static void addPg() {

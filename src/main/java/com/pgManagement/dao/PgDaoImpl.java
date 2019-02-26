@@ -64,4 +64,30 @@ public class PgDaoImpl implements PgDao {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Pg> getUnassignedPgs() {
+		try {
+			return entityManager
+					.createQuery(
+							"select pgs from Pg pgs")
+					.getResultList();
+		} catch (NoResultException nre) {
+			return null;
+		}
+	}
+
+	@Override
+	public Pg getPgByCode(String pgCode) {
+		try {
+			return (Pg) entityManager
+					.createQuery(
+							"select pgs from Pg pgs where pgs.code = :code")
+					.setParameter("code", pgCode).getSingleResult();
+		} catch (NoResultException nre) {
+			return null;
+		}
+	}
+	
+
 }

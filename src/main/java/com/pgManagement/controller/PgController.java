@@ -2,6 +2,7 @@ package com.pgManagement.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,13 +12,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pgManagement.entity.Pg;
+import com.pgManagement.entity.User;
 import com.pgManagement.service.PgServiceImpl;
+import com.pgManagement.service.UserServiceImpl;
 
 @RestController
 public class PgController {
 
 	@Autowired
 	private PgServiceImpl pgServiceImpl;
+	
+	@Autowired
+	private UserServiceImpl userServiceImpl;
 
 	@RequestMapping(value = "/saveNewPg", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public Pg createPg(@RequestBody Pg pg) {
@@ -46,6 +52,38 @@ public class PgController {
 		System.out.println("In PG controller : getPgByUser ");
 		return pgs;
 	}
+	
+	@RequestMapping(value = "/getUnassignedPgs", produces = "application/json", method = RequestMethod.GET)
+	public List<Pg> getUnassignedPgs() {
+
+		List<Pg> pgs = new ArrayList<>();
+
+		pgs = pgServiceImpl.getUnassignedPgs();
+		System.out.println("In PG controller : getUnassignedPgs ");
+		
+		for (Pg pg : pgs){
+			System.out.println("PG : "+pg.toString());			
+		}
+		return pgs;
+	}
+	 @RequestMapping(value = "/assignPgsToUser/userId/{userId}/pgCodes/{pgCodes}", produces = "application/json", method = RequestMethod.GET)
+		public String assignPgsToUser(@PathVariable("userId") long userId, @PathVariable("pgCodes") String pgCodes) {
+		 
+		 User user = userServiceImpl.getUserById(userId);
+		 StringTokenizer st = new StringTokenizer(pgCodes,",");  
+	     while (st.hasMoreTokens()) {  
+	    	 String pgCode = st.nextToken();
+	    	// System.out.println("pgCode :"+pgCode);  
+	    	 Pg pg = pgServiceImpl.getPgByCode(pgCode);
+	    	 List <User> users = pg.getUsers();
+	    	 users.add(user);
+	    	 pg.setUsers(users);
+	         System.out.println(pg.toString());
+	         pgServiceImpl.updatePg(pg);
+	     }  
+	     return "200";
+
+		}
 
 	@RequestMapping(value = "/getPgById/{id}", produces = "application/json", method = RequestMethod.GET)
 	public Pg getPgById(@PathVariable("id") long id) {

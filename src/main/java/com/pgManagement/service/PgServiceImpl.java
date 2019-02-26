@@ -48,4 +48,13 @@ public class PgServiceImpl implements PgService {
 
 	}
 
+	public List<Pg> getUnassignedPgs() {
+		
+		return pgDao.getUnassignedPgs();
+	}
+
+	public Pg getPgByCode(String pgCode) {
+		return pgDao.getPgByCode(pgCode);
+	}
+
 }
