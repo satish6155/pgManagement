@@ -66,11 +66,12 @@ public class PgDaoImpl implements PgDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Pg> getUnassignedPgs() {
+	public List<Pg> getUnassignedPgs(long userid, long loggedUserid) {
 		try {
 			return entityManager
 					.createQuery(
-							"select pgs from Pg pgs")
+							"select pgs from Pg pgs join pgs.users u where pgs.createdBy = :loggedUserid and u.id <> :userid ")
+							.setParameter("userid", userid).setParameter("loggedUserid", loggedUserid)
 					.getResultList();
 		} catch (NoResultException nre) {
 			return null;

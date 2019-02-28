@@ -12,24 +12,20 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd
  		http://www.springframework.org/schema/tx	
  		http://www.springframework.org/schema/tx/spring-tx.xsd">
- 
- <import resource="classpath:hibernate.cfg.xml" />
-
-	<context:component-scan base-package="com.pgManagement" />
-	<mvc:annotation-driven />
-
-	<!-- Database Configurations -->
-<!-- 	<bean id="dataSource"
+ 		
+ 		
+<!-- Database Configurations -->
+	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="driverClassName" value="com.amazon.redshift.jdbc42.Driver" />
+<!-- 		<property name="driverClassName" value="com.amazon.redshift.jdbc42.Driver" /> -->
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
 		<property name="username" value="hr" />
 		<property name="password" value="hr" />
 	</bean>
 
-	Hiberante Sesssion Factory Configurations
-	<bean id="sessionFactory"
+	<!-- Hiberante Sesssion Factory Configurations -->
+	<!-- <bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses">
@@ -44,12 +40,12 @@
 				<prop key="hibernate.hbm2ddl.auto">create</prop>
 			</props>
 		</property>
-	</bean>
+	</bean> -->
 
 
 			
 			
-	Hiberante Entity Manager Configurations
+	<!-- Hiberante Entity Manager Configurations -->
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -66,9 +62,9 @@
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.use_sql_comments">false</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>  
+				<prop key="hibernate.hbm2ddl.auto">create</prop>  
 				<prop key="hibernate.hbm2ddl.import_files">import.sql</prop>
-				<prop key="hibernate.ejb.naming_strategy">com.pgManagement.configuration.StringSequenceIdentifier</prop>
+				<prop key = "hibernate.physical_naming_strategy">com.pgManagement.util.CustomPhysicalNamingStrategy</prop>
 				
 			</props>
 		</property>
@@ -78,6 +74,5 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	<tx:annotation-driven proxy-target-class="true"
-		transaction-manager="transactionManager" /> -->
-		
-</beans>
+		transaction-manager="transactionManager" />
+		</beans>

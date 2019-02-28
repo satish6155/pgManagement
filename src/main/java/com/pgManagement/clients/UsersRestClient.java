@@ -99,7 +99,7 @@ public class UsersRestClient {
     }
 
 	private static User getUser(int id) {
-		return restTemplate.getForObject(REST_BASE_URI + "/user/" + id,
+		return restTemplate.getForObject(REST_BASE_URI + "/getUserById/" + id,
 				User.class);
 		
 	}

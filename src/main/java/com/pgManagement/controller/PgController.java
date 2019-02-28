@@ -53,12 +53,12 @@ public class PgController {
 		return pgs;
 	}
 	
-	@RequestMapping(value = "/getUnassignedPgs", produces = "application/json", method = RequestMethod.GET)
-	public List<Pg> getUnassignedPgs() {
+	@RequestMapping(value = "/getUnassignedPgs/loggedUser/{loggedUserId}/requestedForUser/{userId}", produces = "application/json", method = RequestMethod.GET)
+	public List<Pg> getUnassignedPgs(@PathVariable("userId") long userid, @PathVariable("loggedUserId") long loggedUserId) {
 
 		List<Pg> pgs = new ArrayList<>();
 
-		pgs = pgServiceImpl.getUnassignedPgs();
+		pgs = pgServiceImpl.getUnassignedPgs( userid, loggedUserId );
 		System.out.println("In PG controller : getUnassignedPgs ");
 		
 		for (Pg pg : pgs){

@@ -18,7 +18,7 @@ public interface PgDao {
 
 	List<Pg> getPgByUser(long id);
 
-	List<Pg> getUnassignedPgs();
+	List<Pg> getUnassignedPgs(long userid, long loggedUserid);
 
 	Pg getPgByCode(String pgCode);
 
